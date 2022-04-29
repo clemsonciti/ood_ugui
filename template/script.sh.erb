@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+
+
+#!/usr/bin/env bash
+
+<%- gpu = context.pbs_ngpus.include?("1") -%>
+
+# Clean the environment
+module purge
+
+# Set working directory to home directory
+cd "${HOME}"
+
+#
+# Launch Fluxbox
+#
+
+module load fluxbox/1.3.7-gcc/8.3.1
+
+# Create Fluxbox root or it will override the below init file
+(
+  umask 077
+  mkdir -p "${HOME}/.fluxbox"
+)
+
+
+xrandr -s <%= context.vnc_resolution %>
+
+# Start the Fluxbox window manager (it likes to crash on occassion, make it
+# persistent)
+
+set -x
+(
+until fluxbox -display "${DISPLAY}.0" -rc "<%= session.staged_root.join("fluxbox.rc") %>"; do
+    echo "Fluxbox crashed with exit code $?. Respawning..." >&2
+    sleep 1
+  done
+) &
+
+#
+# Start MatLab
+#
+
+# Load the required environment
+module load <%= context.modules %>
+
+# Output debug information
+module list
+
+# Launch Matlab
+set -x
+<%- if gpu -%>
+#module load virtualgl
+#module load intel/16.0.3 virtualgl
+  module list
+  set -x
+#  icewm
+  vglrun matlab -desktop -nosoftwareopengl
+
+<%- else -%>
+  module list
+  set -x
+  matlab -desktop
+<%- end -%>
+
+
