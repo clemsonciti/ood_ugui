@@ -48,9 +48,10 @@ attributes:
       </small>
 
   pbs_ngpus:
+    #GY: default set to 1
     label: "Number of GPUs per chunk (ngpus)"
     widget: "select"
-    value: "0"
+    value: "1"
     options:
       - ["None",""]
       - ["1",":ngpus=1"]
@@ -58,9 +59,10 @@ attributes:
       - ["4",":ngpus=4"]
 
   pbs_gpu_model:
+    #GY: default set to "Any"
     label: "GPU Model (gpu_model)"
     widget: "select"
-    value: "none"
+    value: "Any"
     options:
       - ["None",""]
       - ["Any", ":gpu_model=any"]
@@ -124,23 +126,22 @@ attributes:
     <%- end -%>
 
   modules: 
-    label: "Matlab Version"
+    # GY: changed to anaconda versions (copied from ood_jupyter repo)
+    label: "Anaconda Version"
     widget: "select"
     required: true
-    value: "matlab/2021b"
+    value: "anaconda3/2019.10-gcc/8.3.1"
     options:
-      - ["matlab/2021b","matlab/2021b"]
-      - ["matlab/2021a","matlab/2021a"]
-      - ["matlab/2020a","matlab/2020a"]
-      - ["matlab/2019b","matlab/2019b"]
-      - ["matlab/2018b","matlab/2018b"]
-      - ["matlab/MUSC2018ba","matlab/MUSC2018b"]
+      - ["anaconda3/2019.10-gcc/8.3.1","anaconda3/2019.10-gcc/8.3.1"]
+      - ["anaconda3/2020.07-gcc/8.4.1","anaconda3/2020.07-gcc/8.4.1"]
+      - ["anaconda3/2021.05-gcc/8.3.1","anaconda3/2021.05-gcc/8.3.1"]
 
   vnc_resolution:
+    # GY: default set to "1024x768" (so it fits on a laptop screen)
     label: "Resolution"
     required: true
     widget: "select"
-    value: "1280x1024"
+    value: "1024x768"
     options:
       - ["2560x1600","2560x1600"]
       - ["2560x1440","2560x1440"]
@@ -153,8 +154,9 @@ attributes:
       - ["800x600","800x600"]
 
   bc_vnc_resolution:
+    # GY: changed to match the default vnc_resolution
     required: true
-    value: "1280x1024"
+    value: "1024x768"
 
 form:
   - modules
