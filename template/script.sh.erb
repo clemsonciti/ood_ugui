@@ -47,20 +47,20 @@ module load <%= context.modules %>
 # Output debug information
 module list
 
-# Launch Matlab
+# Launch UGUI
 set -x
 <%- if gpu -%>
 #module load virtualgl
 #module load intel/16.0.3 virtualgl
   module list
   set -x
-#  icewm
-  vglrun matlab -desktop -nosoftwareopengl
+  python /zfs/hpcnirc/usr/bin/ugui/py
+#  vglrun matlab -desktop -nosoftwareopengl
 
 <%- else -%>
   module list
   set -x
-  matlab -desktop
+#  matlab -desktop
 <%- end -%>
 
 
