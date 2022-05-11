@@ -6,13 +6,6 @@
 #<%- gpu = context.pbs_ngpus.include?("1") -%>
 <%- gpu = not(context.pbs_ngpus.include?("0")) -%>
 
-# testing if GPUs are detected properly
-<%- if gpu-%>
-echo gpu-detected
-<%- else -%>
-echo gpu-not-detected
-<%- end -%>
-
 # Clean the environment
 module purge
 
@@ -45,10 +38,6 @@ until fluxbox -display "${DISPLAY}.0" -rc "<%= session.staged_root.join("fluxbox
   done
 ) &
 
-#
-# Start MatLab
-#
-
 # Load the required environment
 module load <%= context.modules %>
 
@@ -63,12 +52,6 @@ set -x
   module list
   set -x
   python /zfs/hpcnirc/usr/bin/ugui.py
-#  vglrun matlab -desktop -nosoftwareopengl
-
-<%- else -%>
-  module list
-  set -x
-#  matlab -desktop
 <%- end -%>
 
 
