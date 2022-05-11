@@ -5,8 +5,13 @@
 
 #<%- gpu = context.pbs_ngpus.include?("1") -%>
 <%- gpu = not(context.pbs_ngpus.include?("0")) -%>
-echo Test are GPUs detected
-echo gpu
+
+# testing if GPUs are detected properly
+<%- if gpu-%>
+echo gpu-detected
+<%- else -%>
+echo gpu-not-detected
+<%- end -%>
 
 # Clean the environment
 module purge
